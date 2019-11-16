@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 # Longest Common Subsequence
 
-X = 'abaabbaaa'
-Y = 'babab'
+X = 'politechnika'
+Y = 'toaleta'
 
 X_LENGTH = len(X)
 Y_LENGTH = len(Y)
@@ -13,7 +13,7 @@ Y_LENGTH_PLUS_ONE = Y_LENGTH + 1
 C = [[-1 for x in range(X_LENGTH_PLUS_ONE)] for y in range(Y_LENGTH_PLUS_ONE)]
 
 
-def longest_common_subsequence():
+def longest_common_subsequence_value():
     for i in range(0, Y_LENGTH_PLUS_ONE):
         C[i][0] = 0
 
@@ -29,24 +29,25 @@ def longest_common_subsequence():
 
     print('Length of the longest common subsequence is equal to', C[Y_LENGTH][X_LENGTH])
 
+
+def longest_common_subsequence_word():
     i = X_LENGTH
     j = Y_LENGTH
     word = []
 
-    while i >= 0 and j >= 0:
+    while i > 0 and j > 0:
         if C[j][i] == C[j - 1][i]:
+            if j >= 0:
+                j = j - 1
+        elif C[j][i] == C[j][i - 1]:
             if i >= 0:
                 i = i - 1
-            continue
+        else:
+            word.append(Y[j - 1])
+            j = j - 1
+            i = i - 1
 
-        # if C[j][i] == C[j][i - 1]:
-        #     if j >= 0:
-        #         j = j - 1
-        #     continue
-
-        word.append(Y[j - 1])
-        j = j - 1
-        i = i - 1
+    word.reverse()
 
     print('Longest common subsequence is ', *word)
 
@@ -54,7 +55,8 @@ def longest_common_subsequence():
 def init():
     print_list_with_indents()
 
-    longest_common_subsequence()
+    longest_common_subsequence_value()
+    longest_common_subsequence_word()
 
     print_list_with_indents()
 
