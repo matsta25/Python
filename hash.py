@@ -2,6 +2,7 @@
 # Hash
 
 import random
+import sys
 
 import matplotlib.pyplot as plt
 
@@ -11,7 +12,7 @@ class Dictionary:
     def __init__(self, size=10):
         self.data = []
         self.size = size
-        self.comparison_count = 0
+        self.find_comparison_count = 0
 
         for i in range(size):
             self.data.insert(i, [])
@@ -21,9 +22,9 @@ class Dictionary:
 
     def find_index(self, k):
         h = hash(k) % self.size
-        self.comparison_count = 0
+        self.find_comparison_count = 0
         for i in range(0, len(self.data[h])):
-            self.comparison_count = self.comparison_count + 1
+            self.find_comparison_count = self.find_comparison_count + 1
             if self.key(self.data[h][i]) == k:
                 return h, i
         return h, -1
@@ -47,11 +48,11 @@ class Dictionary:
             self.data[h][i] = self.data[h][-1]
             self.data.remove(self.data[h][-1])
 
-    def get_comparison_count(self):
-        return self.comparison_count
+    def get_find_comparison_count(self):
+        return self.find_comparison_count
 
 
-def graph(x, y):
+def create_graph(x, y):
     plt.plot(x, y)
     plt.xlabel('x - liczba elementow w slowniku')
     plt.ylabel('y - srednia liczba prownan potrzebna by znalezc element')
@@ -71,10 +72,16 @@ def init():
         for n in range(elements_count + 1):
             dictionary.insert(random.randint(0, max_value))
 
-        x.append(elements_count)
-        y.append(dictionary.get_comparison_count())
+        for j in range(elements_count + 1):
+            dictionary.find(random.randint(0, max_value))
 
-    graph(x, y)
+        sys.stdout.write("\r%d%%" % i)
+        sys.stdout.flush()
+
+        x.append(elements_count)
+        y.append(dictionary.get_find_comparison_count())
+
+    create_graph(x, y)
 
 
 init()
