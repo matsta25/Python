@@ -6,6 +6,7 @@
 
 import random
 import string
+
 import matplotlib.pyplot as plt
 
 comparison_count = 0
@@ -65,87 +66,98 @@ def sunday(t, w):
 def create_graph(x, y, z, str='default'):
     plt.plot(x, y, label='Naive')
     plt.plot(x, z, label='Sunday')
-    plt.xlabel('x - liczba prownan')
-    plt.ylabel('y -' + str)
+    plt.xlabel('x -' + str)
+    plt.ylabel('y - liczba prownan')
     plt.title('Wykres statystyk')
     plt.legend()
     plt.show()
 
 
-def init():
+def naive_sunday_when_text_size_changes():
     global comparison_count, comparison_count_sunday
-    comparison_count = 0
-    comparison_count_sunday = 0
-
-    # text_size changes
     alphabet_size = 4
-    text_size = 6
-    template_size = 2
-    x1 = []
-    y1 = []
-    z1 = []
+    template_size = 10
+    x = []
+    y = []
+    z = []
     for i in range(1000):
-        text_size = text_size + 2
-        x1.append(text_size)
+        comparison_count = 0
+        comparison_count_sunday = 0
+
+        text_size = i
 
         t = rand_str(text_size, alphabet_size)
         w = rand_str(template_size, alphabet_size)
 
+        x.append(text_size)
+
         naive(t, w)
-        y1.append(comparison_count)
+        y.append(comparison_count)
 
         init_last_p(w, alphabet_size)
         sunday(t, w)
-        z1.append(comparison_count_sunday)
-    create_graph(x1, y1, z1, '|T|')
+        z.append(comparison_count_sunday)
+    create_graph(x, y, z, '|T|')
 
-    # template_size changes
-    comparison_count = 0
-    comparison_count_sunday = 0
+
+def naive_sunday_when_text_template_changes():
+    global comparison_count, comparison_count_sunday
     alphabet_size = 4
     text_size = 1000
-    template_size = 2
-    x2 = []
-    y2 = []
-    z2 = []
-    for i in range(10):
-        template_size = template_size + 2
-        x2.append(template_size)
+    x = []
+    y = []
+    z = []
+    for i in range(1, 21):
+        comparison_count = 0
+        comparison_count_sunday = 0
+
+        template_size = i
 
         t = rand_str(text_size, alphabet_size)
         w = rand_str(template_size, alphabet_size)
 
+        x.append(template_size)
+
         naive(t, w)
-        y2.append(comparison_count)
+        y.append(comparison_count)
 
         init_last_p(w, alphabet_size)
         sunday(t, w)
-        z2.append(comparison_count_sunday)
-    create_graph(x2, y2, z2, '|W|')
+        z.append(comparison_count_sunday)
+    create_graph(x, y, z, '|W|')
 
-    # alphabet_size changes
-    comparison_count = 0
-    comparison_count_sunday = 0
-    alphabet_size = 2
-    text_size = 1000
-    template_size = 20
-    x3 = []
-    y3 = []
-    z3 = []
-    for i in range(10):
-        alphabet_size = alphabet_size + 2
-        x3.append(alphabet_size)
+
+def naive_sunday_when_alphabet_size_changes():
+    global comparison_count, comparison_count_sunday
+    text_size = 100
+    template_size = 3
+    x = []
+    y = []
+    z = []
+    for i in range(1, 21):
+        comparison_count = 0
+        comparison_count_sunday = 0
+
+        alphabet_size = i
 
         t = rand_str(text_size, alphabet_size)
         w = rand_str(template_size, alphabet_size)
 
+        x.append(alphabet_size)
+
         naive(t, w)
-        y3.append(comparison_count)
+        y.append(comparison_count)
 
         init_last_p(w, alphabet_size)
         sunday(t, w)
-        z3.append(comparison_count_sunday)
-    create_graph(x3, y3, z3, '|A|')
+        z.append(comparison_count_sunday)
+    create_graph(x, y, z, '|A|')
+
+
+def init():
+    naive_sunday_when_text_size_changes()
+    naive_sunday_when_text_template_changes()
+    naive_sunday_when_alphabet_size_changes()
 
 
 init()
